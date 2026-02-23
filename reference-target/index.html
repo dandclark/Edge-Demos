@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reference Target — Demo</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #0b0d12;
+      --panel: #121725;
+      --panel2: #0f1320;
+      --text: #e7e9ee;
+      --muted: #a7afc3;
+      --border: rgba(255,255,255,.10);
+      --border2: rgba(255,255,255,.14);
+      --accent: #6ea8ff;
+      --good: #5fe1b6;
+      --warn: #ffd36e;
+      --bad: #ff7d7d;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f6f7fb;
+        --panel: #ffffff;
+        --panel2: #fbfcff;
+        --text: #121524;
+        --muted: #495166;
+        --border: rgba(0,0,0,.10);
+        --border2: rgba(0,0,0,.14);
+        --shadow: 0 12px 28px rgba(16,24,40,.12);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      padding-top: var(--topbar-h, 76px);
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(110,168,255,.25), transparent 60%),
+                  radial-gradient(900px 500px at 80% 0%, rgba(95,225,182,.18), transparent 55%),
+                  var(--bg);
+    }
+
+    /* ── Top bar ─────────────────────────────── */
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+      background: color-mix(in oklab, var(--bg) 82%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 16px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: .2px;
+      font-weight: 650;
+    }
+
+    .brand .subtitle {
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height: 1.2;
+    }
+
+    .topbar-link {
+      color: var(--accent);
+      font-size: 13px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .topbar-link:hover {
+      text-decoration: underline;
+    }
+
+    .topbar-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    /* ── Demo grid ───────────────────────────── */
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 64px;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 980px) {
+      .demo-grid {
+        grid-template-columns: minmax(180px, 1fr) minmax(320px, 2.4fr) minmax(200px, 1.2fr);
+      }
+    }
+
+    /* Column headers */
+    .col-header {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--muted);
+      padding: 0 4px 6px;
+      border-bottom: 1px solid var(--border);
+      display: none;
+    }
+
+    @media (min-width: 980px) {
+      .col-header { display: block; }
+    }
+
+    /* Row label — spans all 3 cols on mobile, first col on desktop */
+    .row-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--accent);
+      padding: 18px 0 2px;
+    }
+
+    @media (min-width: 980px) {
+      .row-label {
+        grid-column: 1 / -1;
+        padding: 24px 0 2px;
+        border-bottom: 1px solid var(--border);
+      }
+    }
+
+    /* Cells */
+    .cell {
+      min-width: 0;
+    }
+
+    .cell.description {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--muted);
+      padding: 4px 0;
+    }
+
+    .cell.description strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ── Panels ──────────────────────────────── */
+
+    .panel {
+      background: linear-gradient(180deg, color-mix(in oklab, var(--panel) 92%, transparent), var(--panel2));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: clip;
+    }
+
+    .panel-header {
+      padding: 14px 14px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .panel-header h3 {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 650;
+      letter-spacing: .2px;
+    }
+
+    .panel-body {
+      padding: 14px;
+    }
+
+    /* ── Source code blocks ───────────────────── */
+
+    .source-code {
+      background: color-mix(in oklab, var(--panel) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      overflow-x: auto;
+    }
+
+    .source-code pre {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.6;
+      white-space: pre;
+      color: var(--text);
+    }
+
+    .source-code .tag   { color: var(--accent); }
+    .source-code .attr  { color: var(--good); }
+    .source-code .val   { color: var(--warn); }
+    .source-code .cmt   { color: var(--muted); font-style: italic; }
+
+    /* ── Demo area ───────────────────────────── */
+
+    .demo-area {
+      background: color-mix(in oklab, var(--panel) 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* ── Utility ─────────────────────────────── */
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--border2);
+      background: color-mix(in oklab, var(--panel) 72%, transparent);
+      color: var(--text);
+      padding: 9px 14px;
+      border-radius: 12px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform .06s ease, background .12s ease;
+    }
+
+    .btn:hover { background: color-mix(in oklab, var(--panel) 82%, transparent); }
+    .btn:active { transform: translateY(1px); }
+
+    label, input, select {
+      font-family: var(--sans);
+      font-size: 13px;
+    }
+
+    .intro-blurb {
+      max-width: 900px;
+      margin: 1.5rem auto;
+      padding: 0 1.5rem;
+      line-height: 1.6;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .intro-blurb a {
+      color: var(--accent);
+    }
+
+    .intro-blurb code {
+      font-family: var(--mono);
+      background: var(--border);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <!-- ── Top bar ──────────────────────────── -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <h1>Reference Target</h1>
+        <span class="subtitle">Interactive Demos</span>
+      </div>
+      <div class="topbar-links">
+        <a class="topbar-link" href="https://github.com/WICG/webcomponents/blob/gh-pages/proposals/reference-target-explainer.md">Explainer ↗</a>
+        <a class="topbar-link" href="https://github.com/WICG/webcomponents/issues/1120">Feedback ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Intro blurb ──────────────────────── -->
+  <p class="intro-blurb">
+    This page shows a few of the things that can be achieved with the Reference Target proposal.
+    For more information, see the <a href="https://github.com/WICG/webcomponents/blob/gh-pages/proposals/reference-target-explainer.md">explainer</a>.
+    To see the demos working in a browser, load this page in Edge or Chrome with
+    <code>edge://flags/#enable-experimental-web-platform-features</code>
+    enabled, which turns on the reference target prototype.
+  </p>
+
+  <!-- ── Main content ─────────────────────── -->
+  <main class="wrap">
+    <div class="demo-grid">
+      <!-- Column headers (visible on wide screens) -->
+      <div class="col-header">Description</div>
+      <div class="col-header">Source</div>
+      <div class="col-header">Demo</div>
+
+      <!-- ═══ Row 1: Label ═══════════════════ -->
+      <div class="row-label">Label</div>
+
+      <div class="cell description">
+        <p>
+          <strong>Label association across shadow DOM.</strong>
+          A <code>&lt;label&gt;</code> element in the light DOM targets an
+          <code>&lt;input&gt;</code> inside a custom element's shadow tree via
+          <code>referenceTarget</code>, enabling click-to-focus and
+          accessibility wiring without exposing internals (try clicking "Checkbox value").
+        </p>
+      </div>
+
+      <div class="cell">
+        <div class="source-code">
+          <pre><code class="language-html" data-demo="demo-label">&lt;label for=&quot;my-checkbox&quot;&gt;Checkbox value&lt;/label&gt;
+&lt;custom-checkbox id=&quot;my-checkbox&quot;&gt;
+  &lt;template shadowrootmode=&quot;open&quot; shadowrootreferencetarget=&quot;real-checkbox&quot;&gt;
+    &lt;input id=&quot;real-checkbox&quot; type=&quot;checkbox&quot;&gt;
+  &lt;/template&gt;
+&lt;/custom-checkbox&gt;</code></pre>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="demo-area" id="demo-label"></div>
+      </div>
+
+      <!-- ═══ Row 2: Popover ═════════════════ -->
+      <div class="row-label">Popover</div>
+
+      <div class="cell description">
+        <p>
+          <strong>Popover invocation across shadow DOM.</strong>
+          A <code>button[popovertarget]</code> in the light DOM toggles a
+          popover living inside a custom element's shadow tree, using
+          <code>referenceTarget</code> to bridge the encapsulation boundary.
+        </p>
+      </div>
+
+      <div class="cell">
+        <div class="source-code">
+          <pre><code class="language-html" data-demo="demo-popover">&lt;button popovertarget=&quot;custom-popover&quot;&gt;Toggle popover&lt;/button&gt;
+&lt;custom-popover id=&quot;custom-popover&quot;&gt;
+  &lt;template shadowrootmode=&quot;open&quot; shadowrootreferencetarget=&quot;real-popover&quot;&gt;
+    &lt;style&gt;
+      [popover] { border-radius: 50%; padding: 5em 1em; }
+    &lt;/style&gt;
+    &lt;div id=&quot;real-popover&quot; popover&gt;Here&#39;s the popover content&lt;/div&gt;
+  &lt;/template&gt;
+&lt;/custom-popover&gt;</code></pre>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="demo-area" id="demo-popover"></div>
+      </div>
+
+      <!-- ═══ Row 3: aria-labelledby ═════════ -->
+      <div class="row-label">aria-labelledby</div>
+
+      <div class="cell description">
+        <p>
+          <strong>Fine-grained ARIA labelling.</strong>
+          In some cases we might want to use only part of a component's shadow
+          content as the accessible name for another element. <code>aria-labelledby</code>
+          can be combined with <code>referenceTarget</code> to achieve this by pointing to a
+          specific element inside the shadow tree.
+        </p>
+      </div>
+
+      <div class="cell">
+        <div class="source-code">
+          <pre><code class="language-html" data-demo="demo-aria-labelledby">&lt;input aria-labelledby=&quot;fancy-label&quot;&gt;
+&lt;fancy-description id=&quot;fancy-label&quot;&gt;
+  &lt;template shadowrootmode=&quot;open&quot; shadowrootreferencetarget=&quot;inner-label&quot;&gt;
+    &lt;div id=&quot;inner-label&quot;&gt;This is the text we want to use as the accessible name.&lt;/div&gt;
+    &lt;div&gt;This other text won&#39;t be included in the accessible name.&lt;/div&gt;
+ &lt;/template&gt;
+&lt;/fancy-description&gt;</code></pre>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="demo-area" id="demo-aria-labelledby"></div>
+      </div>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
+  <script>
+    // Populate each demo area with live HTML from its paired source block.
+    // <code data-demo="demo-id"> → decoded textContent is injected as innerHTML
+    // into the element with that id.
+    document.querySelectorAll('code[data-demo]').forEach(code => {
+      const target = document.getElementById(code.dataset.demo);
+      if (target) target.setHTMLUnsafe(code.textContent);
+    });
+  </script>
+</body>
+</html>
