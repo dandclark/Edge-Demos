@@ -48,6 +48,7 @@
       background: radial-gradient(1200px 600px at 20% -10%, rgba(110,168,255,.25), transparent 60%),
                   radial-gradient(900px 500px at 80% 0%, rgba(95,225,182,.18), transparent 55%),
                   var(--bg);
+      background-attachment: fixed;
     }
 
     /* ── Top bar ─────────────────────────────── */
@@ -127,6 +128,23 @@
       .demo-grid {
         grid-template-columns: minmax(180px, 1fr) minmax(320px, 2.4fr) minmax(200px, 1.2fr);
       }
+
+      .demo-grid.two-col {
+        grid-template-columns: minmax(200px, 1fr) minmax(400px, 2.4fr);
+      }
+    }
+
+    .section-heading {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 80px 0 8px;
+    }
+
+    .section-description {
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--muted);
+      margin: 0 0 24px;
     }
 
     /* Column headers */
@@ -339,7 +357,7 @@
 
       <div class="cell">
         <div class="source-code">
-          <pre><code class="language-html" data-demo="demo-label">&lt;label for=&quot;my-checkbox&quot;&gt;Checkbox value&lt;/label&gt;
+          <pre><code class="language-html" data-demo="demo-label">&lt;label for=&quot;my-checkbox&quot;&gt;Checkbox value (click me to toggle checkbox)&lt;/label&gt;
 &lt;custom-checkbox id=&quot;my-checkbox&quot;&gt;
   &lt;template shadowrootmode=&quot;open&quot; shadowrootreferencetarget=&quot;real-checkbox&quot;&gt;
     &lt;input id=&quot;real-checkbox&quot; type=&quot;checkbox&quot;&gt;
@@ -409,6 +427,82 @@
 
       <div class="cell">
         <div class="demo-area" id="demo-aria-labelledby"></div>
+      </div>
+    </div>
+
+    <h2 class="section-heading">Things Reference Target does ⚠️ <em>not</em> ⚠️ do</h2>
+    <p class="section-description">To clear up misconceptions about what reference target does, the following table shows some scenarios that are out of scope.</p>
+
+    <div class="demo-grid two-col">
+      <!-- Column headers (visible on wide screens) -->
+      <div class="col-header">Description</div>
+      <div class="col-header">Source</div>
+
+      <!-- ═══ Row 1: Attribute forwarding ════ -->
+      <div class="row-label">Attribute forwarding</div>
+
+      <div class="cell description">
+        <p>
+          <strong>Attribute forwarding is not supported.</strong>
+          The <code>referenceTarget</code> attribute does not copy attributes from the light DOM to elements inside the shadow tree.
+        </p>
+      </div>
+
+      <div class="cell">
+        <div class="source-code">
+          <pre><code class="language-html">&lt;fancy-description aria-label=&quot;This is an accessible name&quot;&gt;
+  &lt;template shadowrootmode=&quot;open&quot; shadowrootreferencetarget=&quot;inner-element&quot;&gt;
+    &lt;div id=&quot;inner-element&quot;&gt;The aria-label attribute does not get forwarded to this element.&lt;/div&gt;
+  &lt;/template&gt;
+&lt;/fancy-description&gt;</code></pre>
+        </div>
+      </div>
+
+      <!-- ═══ Row 2: References out of shadow DOM ═ -->
+      <div class="row-label">References <em>out</em> of shadow DOM</div>
+
+      <div class="cell description">
+        <p>
+          <strong>References out of the shadow DOM are not supported.</strong>
+          The <code>referenceTarget</code> attribute only works for ID references pointing *into* a shadow tree, but not for references pointing out of the shadow DOM.
+        </p>
+      </div>
+
+      <div class="cell">
+        <div class="source-code">
+          <pre><code class="language-html">&lt;custom-button popovertarget=&quot;my-popover&quot;&gt;
+  &lt;template shadowrootmode=&quot;open&quot; shadowrootreferencetarget=&quot;real-button&quot;&gt;
+    &lt;!-- The popovertarget reference isn&#39;t forwarded, so this doesn&#39;t work. Put another way, 
+         reference target only works for ID references pointing *into* a shadow, but in this case
+         the ID reference needs to be pointing out of the shadow, from the button to the popover. --&gt;
+    &lt;button id=&quot;real-button&quot;&gt;Open popover?&lt;/button&gt;
+  &lt;/template&gt;
+&lt;/custom-button&gt;
+&lt;div id=&quot;my-popover&quot; popover&gt;Popover contents&lt;/div&gt;
+
+&lt;!-- There&#39;s an alternative way to do this however, setting up the reference using JS: --&gt;
+&lt;working-custom-button popovertarget=&quot;my-working-popover&quot;&gt;
+  &lt;template shadowrootmode=&quot;open&quot;&gt;
+    &lt;button id=&quot;real-button&quot;&gt;Open popover?&lt;/button&gt;
+  &lt;/template&gt;
+&lt;/working-custom-button&gt;
+&lt;div id=&quot;my-working-popover&quot; popover&gt;Popover contents&lt;/div&gt;
+&lt;script&gt;
+  customElements.define(&quot;working-custom-button&quot;, class WorkingCustomButton extends HTMLElement {
+    constructor() {
+      super();
+      this._internals = this.attachInternals();
+      const real_button = this._internals.shadowRoot.querySelector(&quot;#real-button&quot;);
+      const popover = document.querySelector(&quot;#my-working-popover&quot;);
+      // Use script to set up the reference to the popover, pointing *out*
+      // of the shadow. Note that references set up this way can only
+      // point *out* of a shadow root or to a node in the same root.
+      // For references pointing *into* a shadow, we need reference target.
+      real_button.popoverTargetElement = popover;
+    }
+  });
+&lt;/script&gt;</code></pre>
+        </div>
       </div>
     </div>
   </main>
