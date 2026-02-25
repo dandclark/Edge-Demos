@@ -308,6 +308,20 @@
       padding: 2px 6px;
       border-radius: 4px;
     }
+
+    .browser-warning {
+      display: none;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 14px 1.5rem;
+      background: color-mix(in oklab, var(--bad) 15%, transparent);
+      border: 1px solid color-mix(in oklab, var(--bad) 40%, transparent);
+      border-radius: 10px;
+      color: var(--bad);
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
@@ -333,7 +347,15 @@
     <code>edge://flags/#enable-experimental-web-platform-features</code>
     enabled, which turns on the reference target prototype.
   </p>
-
+  <div class="browser-warning" id="browser-warning">
+    ⚠️ Reference target isn't enabled in your browser, so these demos won't work yet.
+  </div>
+  <script>
+    const supported = (document.createElement("div")
+      .attachShadow({ mode: "open", referenceTarget: "supported" })
+      .referenceTarget === "supported");
+    if (!supported) document.getElementById("browser-warning").style.display = "block";
+  </script>
   <!-- ── Main content ─────────────────────── -->
   <main class="wrap">
     <div class="demo-grid">
