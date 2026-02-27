@@ -79,7 +79,13 @@
       display: flex;
       align-items: baseline;
       gap: 12px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      body { padding-top: 130px; }
+      .topbar-inner { flex-wrap: wrap; }
+      .brand { flex-wrap: wrap; }
     }
 
     .brand h1 {
