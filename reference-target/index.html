@@ -314,14 +314,14 @@
   <main class="wrap">
     <div class="demo-grid">
       <!-- Column headers (visible on wide screens) -->
-      <h2 class="col-header">Description</h2>
-      <h2 class="col-header">Source</h2>
-      <h2 class="col-header">Demo</h2>
+      <h2 class="col-header" id="col-description">Description</h2>
+      <h2 class="col-header" id="col-source">Source</h2>
+      <h2 class="col-header" id="col-demo">Demo</h2>
 
       <!-- ═══ Row 1: Label ═══════════════════ -->
       <h2 class="row-label">Label</h2>
 
-      <div class="cell description">
+      <div class="cell description" aria-labelledby="col-description">
         <p>
           <strong>Label association across shadow DOM.</strong>
           A <code>&lt;label&gt;</code> element in the light DOM targets an
@@ -331,7 +331,7 @@
         </p>
       </div>
 
-      <div class="cell">
+      <div class="cell" aria-labelledby="col-source">
         <div class="source-code">
           <pre><code class="language-html" data-demo="demo-label">&lt;label for=&quot;my-checkbox&quot;&gt;Checkbox value (click me to toggle checkbox)&lt;/label&gt;
 &lt;custom-checkbox id=&quot;my-checkbox&quot;&gt;
@@ -342,14 +342,14 @@
         </div>
       </div>
 
-      <div class="cell">
+      <div class="cell" aria-labelledby="col-demo">
         <div class="demo-area" id="demo-label"></div>
       </div>
 
       <!-- ═══ Row 2: Popover ═════════════════ -->
       <h2 class="row-label">Popover</h2>
 
-      <div class="cell description">
+      <div class="cell description" aria-labelledby="col-description">
         <p>
           <strong>Popover invocation across shadow DOM.</strong>
           A <code>button[popovertarget]</code> in the light DOM toggles a
@@ -358,7 +358,7 @@
         </p>
       </div>
 
-      <div class="cell">
+      <div class="cell" aria-labelledby="col-source">
         <div class="source-code">
           <pre><code class="language-html" data-demo="demo-popover">&lt;button popovertarget=&quot;custom-popover&quot;&gt;Toggle popover&lt;/button&gt;
 &lt;custom-popover id=&quot;custom-popover&quot;&gt;
@@ -372,14 +372,14 @@
         </div>
       </div>
 
-      <div class="cell">
+      <div class="cell" aria-labelledby="col-demo">
         <div class="demo-area" id="demo-popover"></div>
       </div>
 
       <!-- ═══ Row 3: aria-labelledby ═════════ -->
       <h2 class="row-label">aria-labelledby</h2>
 
-      <div class="cell description">
+      <div class="cell description" aria-labelledby="col-description">
         <p>
           <strong>Fine-grained ARIA labelling.</strong>
           In some cases we might want to use only part of a component's shadow
@@ -389,7 +389,7 @@
         </p>
       </div>
 
-      <div class="cell">
+      <div class="cell" aria-labelledby="col-source">
         <div class="source-code">
           <pre><code class="language-html" data-demo="demo-aria-labelledby">&lt;input aria-labelledby=&quot;fancy-label&quot;&gt;
 &lt;fancy-description id=&quot;fancy-label&quot;&gt;
@@ -401,7 +401,7 @@
         </div>
       </div>
 
-      <div class="cell">
+      <div class="cell" aria-labelledby="col-demo">
         <div class="demo-area" id="demo-aria-labelledby"></div>
       </div>
     </div>
@@ -411,20 +411,20 @@
 
     <div class="demo-grid two-col">
       <!-- Column headers (visible on wide screens) -->
-      <h2 class="col-header">Description</h2>
-      <h2 class="col-header">Source</h2>
+      <h2 class="col-header" id="col2-description">Description</h2>
+      <h2 class="col-header" id="col2-source">Source</h2>
 
       <!-- ═══ Row 1: Attribute forwarding ════ -->
       <h2 class="row-label">Attribute forwarding</h2>
 
-      <div class="cell description">
+      <div class="cell description" aria-labelledby="col2-description">
         <p>
           <strong>Attribute forwarding is not supported.</strong>
           The <code>referenceTarget</code> attribute does not copy attributes from the light DOM to elements inside the shadow tree.
         </p>
       </div>
 
-      <div class="cell">
+      <div class="cell" aria-labelledby="col2-source">
         <div class="source-code">
           <pre><code class="language-html">&lt;fancy-description aria-label=&quot;This is an accessible name&quot;&gt;
   &lt;template shadowrootmode=&quot;open&quot; shadowrootreferencetarget=&quot;inner-element&quot;&gt;
@@ -437,14 +437,14 @@
       <!-- ═══ Row 2: References out of shadow DOM ═ -->
       <h2 class="row-label">References <em>out</em> of shadow DOM</h2>
 
-      <div class="cell description">
+      <div class="cell description" aria-labelledby="col2-description">
         <p>
           <strong>References out of the shadow DOM are not supported.</strong>
           The <code>referenceTarget</code> attribute only works for ID references pointing *into* a shadow tree, but not for references pointing out of the shadow DOM.
         </p>
       </div>
 
-      <div class="cell">
+      <div class="cell" aria-labelledby="col2-source">
         <div class="source-code">
           <pre><code class="language-html">&lt;custom-button popovertarget=&quot;my-popover&quot;&gt;
   &lt;template shadowrootmode=&quot;open&quot; shadowrootreferencetarget=&quot;real-button&quot;&gt;
