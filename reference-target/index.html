@@ -162,6 +162,7 @@
       text-transform: uppercase;
       letter-spacing: .8px;
       color: var(--muted);
+      margin: 0;
       padding: 0 4px 6px;
       border-bottom: 1px solid var(--border);
       display: none;
@@ -173,6 +174,7 @@
 
     /* Row label — spans all 3 cols on mobile, first col on desktop */
     .row-label {
+      margin: 0;
       font-size: 13px;
       font-weight: 700;
       text-transform: uppercase;
@@ -312,12 +314,12 @@
   <main class="wrap">
     <div class="demo-grid">
       <!-- Column headers (visible on wide screens) -->
-      <div class="col-header">Description</div>
-      <div class="col-header">Source</div>
-      <div class="col-header">Demo</div>
+      <h2 class="col-header">Description</h2>
+      <h2 class="col-header">Source</h2>
+      <h2 class="col-header">Demo</h2>
 
       <!-- ═══ Row 1: Label ═══════════════════ -->
-      <div class="row-label">Label</div>
+      <h2 class="row-label">Label</h2>
 
       <div class="cell description">
         <p>
@@ -345,7 +347,7 @@
       </div>
 
       <!-- ═══ Row 2: Popover ═════════════════ -->
-      <div class="row-label">Popover</div>
+      <h2 class="row-label">Popover</h2>
 
       <div class="cell description">
         <p>
@@ -375,7 +377,7 @@
       </div>
 
       <!-- ═══ Row 3: aria-labelledby ═════════ -->
-      <div class="row-label">aria-labelledby</div>
+      <h2 class="row-label">aria-labelledby</h2>
 
       <div class="cell description">
         <p>
@@ -409,11 +411,11 @@
 
     <div class="demo-grid two-col">
       <!-- Column headers (visible on wide screens) -->
-      <div class="col-header">Description</div>
-      <div class="col-header">Source</div>
+      <h2 class="col-header">Description</h2>
+      <h2 class="col-header">Source</h2>
 
       <!-- ═══ Row 1: Attribute forwarding ════ -->
-      <div class="row-label">Attribute forwarding</div>
+      <h2 class="row-label">Attribute forwarding</h2>
 
       <div class="cell description">
         <p>
@@ -433,7 +435,7 @@
       </div>
 
       <!-- ═══ Row 2: References out of shadow DOM ═ -->
-      <div class="row-label">References <em>out</em> of shadow DOM</div>
+      <h2 class="row-label">References <em>out</em> of shadow DOM</h2>
 
       <div class="cell description">
         <p>
